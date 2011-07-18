@@ -1,0 +1,111 @@
+https://gist.github.com/1088584
+
+===Result===
+
+java   1.6.0_266    1.07s user 0.12s system 86% cpu 1.370 total (javac pre-copmiled)
+perl   5.12.3       1.67s user 0.01s system 98% cpu 1.698 total
+python 2.7.2        2.00s user 0.23s system 99% cpu 2.247 total
+perl   5.14.1       2.21s user 0.01s system 99% cpu 2.227 total
+ruby   1.8.7        4.76s user 0.01s system 99% cpu 4.786 total
+ruby   1.9          6.69s user 0.05s system 92% cpu 7.261 total
+php    5.3.6        11.33s user 0.08s system 93% cpu 12.192 total
+
+
+===Versions===
+
+$ ruby -v
+ruby 1.8.7 (2011-02-18 patchlevel 334) [i686-darwin10]
+
+$ ruby1.9 -v
+ruby 1.9.2p180 (2011-02-18 revision 30909) [x86_64-darwin10]
+
+$ perl -v
+This is perl 5, version 12, subversion 3 (v5.12.3) built for darwin-multi-2level
+
+$ python --version
+Python 2.7.2
+
+
+===Time===
+
+$ time ruby string.rb
+ruby string.rb  4.76s user 0.01s system 99% cpu 4.786 total
+
+$ time ruby1.9 string.rb
+ruby1.9 string.rb  6.69s user 0.05s system 92% cpu 7.261 total
+
+$ time python string.py
+python string.py  2.00s user 0.23s system 99% cpu 2.247 total
+
+$ time python2.5 string.py
+python2.5 string.py  2.91s user 0.17s system 76% cpu 4.024 total
+
+$ time perl string.pl 
+perl string.pl  1.67s user 0.01s system 98% cpu 1.698 total
+
+$ time ~/perl5/perlbrew/perls/perl-5.13.9/bin/perl string.pl 
+~/perl5/perlbrew/perls/perl-5.13.9/bin/perl string.pl  1.67s user 0.01s system 99% cpu 1.687 total
+
+$ time php string.php
+php string.php  11.33s user 0.08s system 93% cpu 12.192 total
+
+$ time java StringJoin
+java StringJoin 1.07s user 0.12s system 86% cpu 1.370 total , java version "1.6.0_26"
+
+===Code===
+#ruby
+b = ["123", "123" , "123"]
+for i in 1 .. 5000000
+    b.join(',');
+end
+
+#python
+a = [ '123', '123', '123' ]
+for i in range(5000000):
+    ','.join(a)
+
+#perl
+my @b = ( "123" , "123" , "123" );
+for ( 1 .. 5000000 ) {
+    join( ',', @b );
+}
+
+
+#php
+<?php
+$a = array('123','123','123');
+for( $i = 0; $i < 5000000 ; $i++ )
+    join(',',$a);
+?>
+
+#java
+import java.io.*;
+
+public class StringJoinTest
+{
+
+    String combine(String[] s, String glue)
+    {
+        int k=s.length;
+        if (k==0)
+            return null;
+        StringBuilder out = new StringBuilder();
+        out.append(s[0]);
+
+        for (int x=1;x<k;++x)
+            out.append(glue).append(s[x]);
+
+        return out.toString();
+    }
+
+    void run()
+    {
+        String[] s = { "abc" , "abc" ,"abc" };
+        String out;
+        for ( int i = 0 ; i < 5000000 ; i++ ) {
+            out = this.combine( s , "," );
+            // System.out.println( out );
+        }
+    }
+}
+

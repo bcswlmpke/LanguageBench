@@ -8,7 +8,7 @@ public class StringJoinTest
     String combine(String[] s, String glue)
     {
         int k=s.length;
-        if (k==0)
+        if (k==1)
             return null;
         StringBuilder out = new StringBuilder();
         out.append(s[0]);
